@@ -36,7 +36,7 @@ nav a:hover{background:var(--card)}
 .hero::after{content:"";position:absolute;width:520px;height:520px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(73,198,255,.22),transparent 65%);animation:drift 14s ease-in-out infinite alternate}
 .trails{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
 .base{fill:none;stroke:var(--line);stroke-width:1.5}
-.lt{fill:none;stroke:var(--sky);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:90 1200;animation:flow 8s linear infinite;filter:drop-shadow(0 0 5px var(--sky))}
+.trail-line{fill:none;stroke:var(--sky);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:90 1200;animation:flow 8s linear infinite;filter:drop-shadow(0 0 5px var(--sky))}
 .nd{fill:var(--sky);animation:pulse 3s ease-in-out infinite}
 .hgrid{position:relative;z-index:2;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
 .eyebrow{color:var(--orange);font-weight:600;margin:0 0 14px}
@@ -239,6 +239,99 @@ footer p a{color:inherit;text-decoration:none}footer p a:hover{color:var(--orang
 .legal p,.legal li{color:var(--mut);font-size:.98rem}.legal ul{padding-left:22px;margin:8px 0}.legal li{margin:6px 0}
 @media (max-width:960px){.fg{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.fg{grid-template-columns:1fr}}
+
+/* iOS Safari compatibility and small-screen layout safeguards */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-width: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+header,
+.bcard,
+.card,
+.finder {
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#mb {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+button,
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button,
+.btn,
+.chip,
+.lt,
+.tg,
+.sbtn {
+  touch-action: manipulation;
+}
+
+@supports not (background: color-mix(in srgb, #168BFF 30%, transparent)) {
+  .pk .tile {
+    background: linear-gradient(160deg, var(--t1), var(--t2));
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hgrid,
+  .two,
+  .fg,
+  .f {
+    min-width: 0;
+  }
+
+  .hero,
+  section,
+  footer {
+    overflow-wrap: anywhere;
+  }
+
+  .bcard {
+    border-radius: 22px;
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+
+  .pkh h3 {
+    white-space: normal;
+  }
+
+  .ftp .ftpt {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trail-line,
+  .nd,
+  .hero::after,
+  .router {
+    animation: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -255,7 +348,7 @@ footer p a{color:inherit;text-decoration:none}footer p a:hover{color:var(--orang
 <svg class="trails" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><path id="p1" d="M-60 470C220 330 430 560 690 380S1040 190 1260 300"/><path id="p2" d="M-60 250C200 150 380 330 620 220S980 60 1260 120"/><path id="p3" d="M-60 590C260 520 520 640 800 520S1100 430 1260 470"/></defs>
 <use href="#p1" class="base"/><use href="#p2" class="base"/><use href="#p3" class="base"/>
-<use href="#p1" class="lt"/><use href="#p2" class="lt" style="animation-delay:-3s"/><use href="#p3" class="lt" style="animation-delay:-5s"/>
+<use href="#p1" class="trail-line"/><use href="#p2" class="trail-line" style="animation-delay:-3s"/><use href="#p3" class="trail-line" style="animation-delay:-5s"/>
 <circle class="nd" cx="690" cy="380" r="5"/><circle class="nd" cx="620" cy="220" r="5" style="animation-delay:-1s"/><circle class="nd" cx="800" cy="520" r="5" style="animation-delay:-2s"/>
 </svg>
 <div class="wrap hgrid">
