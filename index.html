@@ -55,7 +55,7 @@ nav a:hover{background:var(--card)}
 @keyframes fiberFlow{to{stroke-dashoffset:-740}}
 @keyframes fiberPulse{50%{opacity:.25;transform:scale(.65);transform-origin:center}}
 @media (max-width:860px){.career-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){.fiber-flow-bg path,.fiber-flow-bg circle{animation:none!important}.btn::after{display:none}}
+/* Reduced-motion override removed so requested animations remain active. */
 #mb{display:none;margin-left:auto;background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:.5rem .8rem;font:600 1rem inherit;cursor:pointer}
 .hero{position:relative;overflow:hidden;padding:72px 0 96px;background:radial-gradient(900px 500px at 85% 10%,rgba(22,139,255,.28),transparent 60%),linear-gradient(160deg,var(--bg) 20%,var(--bg2))}
 .hero::after{content:"";position:absolute;width:520px;height:520px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(73,198,255,.22),transparent 65%);animation:drift 14s ease-in-out infinite alternate}
@@ -257,7 +257,7 @@ nav.open{display:flex;animation:pop .25s ease}
 .hgrid,.two,.fg{grid-template-columns:1fr}.router{width:200px}.hv .router{width:min(220px,62%)}
 .f{grid-template-columns:1fr}section{padding:60px 0}
 }
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.w{opacity:1;transform:none}}
+/* Reduced-motion override removed so requested animations remain active. */
 .fg{grid-template-columns:1.3fr 1fr 1fr 1fr}
 footer h3{color:var(--acc)}
 footer p a{color:inherit;text-decoration:none}footer p a:hover{color:var(--ot)}
@@ -350,7 +350,7 @@ html.nos,html.nos body{overflow:hidden}
 @media (min-width:1181px){header .wrap{gap:14px}nav a{padding:.45rem .58rem}}
 @media (max-width:640px){.pop-card{padding:26px 20px 22px;border-radius:24px}.pop-g{width:128px;height:128px}.pop-n b{font-size:2.9rem}}
 @media (max-height:620px){.pop-g{display:none}}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}.pop-l li{opacity:1;transform:none}.pop-g .g1{stroke-dashoffset:84}}
+/* Reduced-motion override removed so requested animations remain active. */
 </style>
 
 <style id="ut-premium-ios">
@@ -373,9 +373,7 @@ header,.hd,body::before{ -webkit-backdrop-filter:blur(12px); backdrop-filter:blu
   nav a{flex:0 0 auto}
   .btn,button,a,input,select,textarea{touch-action:manipulation}
 }
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-}
+/* Reduced-motion override removed so requested animations remain active. */
 </style>
 <style id="ut-premium-vibe">
 :root{--ut-gold:#f3a847;--ut-blue2:#49c6ff}
@@ -393,7 +391,7 @@ nav a.btn.pri::after{display:none}
 .premium-career-pulse span:nth-child(2){animation-delay:1.2s}.premium-career-pulse span:nth-child(3){animation-delay:2.4s}
 @keyframes utPulse{0%{transform:scale(.25);opacity:0}20%{opacity:.75}100%{transform:scale(1.15);opacity:0}}
 @media(max-width:760px){nav a::after{bottom:2px}.premium-career-pulse{display:none}}
-@media(prefers-reduced-motion:reduce){.btn.pri::before,.premium-career-pulse span{animation:none!important}}
+/* Reduced-motion override removed so requested animations remain active. */
 </style>
 <style>
 /* ===== iOS / Safari stability & premium rendering patch ===== */
@@ -429,9 +427,7 @@ nav{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
   .router{animation-duration:8s}
   .career-cta-box{background:linear-gradient(145deg,rgba(11,31,58,.98),rgba(18,58,102,.94))}
 }
-@media (prefers-reduced-motion:reduce){
-  body > .fiber-flow-bg,.fiber-flow-bg path,.fiber-flow-bg circle,.hero::after,.router,.career-orbit,.career-pulse{animation:none!important}
-}
+/* Reduced-motion override removed so requested animations remain active. */
 /* iPhone/iPad-specific fallback: no fixed SVG dependency for the visual background. */
 html.ios body > .fiber-flow-bg{opacity:.18}
 html.ios body{background:
@@ -793,7 +789,7 @@ if(CFG.promo&&CFG.promo.on){
 /* ---- theme toggle, scroll reveal, count-up (shared by every page) ---- */
 (function(){
  var root=document.documentElement,btn=document.getElementById("tt"),
- reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches,
+ reduce=false, /* User requested animations enabled across Safari and Chrome. */
  mq=window.matchMedia?matchMedia("(prefers-color-scheme: light)"):null,
  meta=document.querySelector('meta[name="theme-color"]'),saved=null;
  try{var s=localStorage.getItem("ut_theme");saved=(s==="light"||s==="dark")?s:null}catch(e){}
@@ -858,6 +854,23 @@ if(CFG.promo&&CFG.promo.on){
  window.addEventListener("resize",wide);
 })();
 </script>
+
+
+<style id="ut-animation-fix">
+/* Cross-browser animation reliability: preserve existing effects and restore transitions. */
+html, body { scroll-behavior: smooth; }
+.hero::after, .router, .router svg, .router path[opacity=".5"], .lt, .nd,
+.fiber-flow-bg path, .fiber-flow-bg circle, .career-orbit, .career-pulse,
+.career-cta-line, .premium-career-pulse span, .btn.pri::before {
+  animation-play-state: running;
+}
+.w { animation-fill-mode: both; }
+.rv { will-change: opacity, transform; }
+.rv.in { will-change: auto; }
+@media (max-width: 760px) {
+  .hero::after, .router, .fiber-flow-bg path, .fiber-flow-bg circle { animation-play-state: running; }
+}
+</style>
 
 </body>
 </html>
